@@ -11,6 +11,7 @@ const textElem = document.querySelector('textarea');
 textElem.classList.add('form-textarea');
 const btnElem = document.querySelector('button');
 btnElem.classList.add('form-btn');
+
 function SaveToLS(key, value) {
   const jsonData = JSON.stringify(value);
   localStorage.setItem(key, jsonData);
@@ -33,7 +34,6 @@ const formData = {
 formEl.addEventListener('input', e => {
   formData.email = formEl.elements.email.value;
   formData.message = formEl.elements.message.value;
-  console.log(formData);
   SaveToLS('feedback-form-state', formData);
 });
 
@@ -46,13 +46,15 @@ window.addEventListener('DOMContentLoaded', e => {
 
 formEl.addEventListener('submit', e => {
   e.preventDefault();
-  formData.email = formEl.elements.email.value;
-  formData.message = formEl.elements.message.value;
-  if (formData.email === '' || formData.message === '')
-    window.confirm('Fill please all fields');
-  console.log(formData);
-  formEl.reset();
-  localStorage.removeItem('feedback-form-state');
+  formData.email = formEl.elements.email.value.trim();
+  formData.message = formEl.elements.message.value.trim();
+  if (formData.email === '' || formData.message === '') {
+    window.alert('Fill please all fields');
+  } else {
+    console.log(formData);
+    formEl.reset();
+    localStorage.removeItem('feedback-form-state');
+  }
 });
 
 inputElem.addEventListener('focus', e => {
